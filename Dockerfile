@@ -1,6 +1,20 @@
-FROM node:12.2.0-alpine
-WORKDIR app
-COPY app/ .
+# Use an official Node.js runtime as a parent image
+FROM node:16-alpine
+
+# Set the working directory to /app in the container
+WORKDIR /app
+
+# Copy package.json and package-lock.json files into the container
+COPY app/package*.json ./
+
+# Install dependencies
 RUN npm install
-EXPOSE 8000
-CMD ["node", "app.js"]
+
+# Copy the application code into the container
+COPY app/ ./
+
+# Expose the port that the app listens on (e.g., 3000)
+EXPOSE 3000
+
+# Start the application
+CMD ["npm", "start"]
