@@ -21,14 +21,6 @@ pipeline {
             }
         }
 
-        stage('Generate Timestamp') {
-            steps {
-                script {
-                    // Generate a timestamp and assign it to IMAGE_TAG
-                    TIME_STAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M%S').trim()
-                }
-            }
-        }
 
         stage('Build Docker Image') {
             steps {
@@ -50,6 +42,7 @@ pipeline {
 
                         aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
                         
+                        TIME_STAMP=$(date '+%Y-%m-%d-%H-%M-%S')
                         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$TIME_STAMP
                         '''
