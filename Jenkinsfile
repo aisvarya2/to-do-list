@@ -36,15 +36,17 @@ pipeline {
 
 
                         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+
+                        IME_STAMP=$(date '+%Y-%m-%d-%H-%M-%S')
+                        
                         docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$TIME_STAMP
 
                         # aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
 
                         aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
                         
-                        TIME_STAMP=$(date '+%Y-%m-%d-%H-%M-%S')
                         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-                        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$TIME_STAMP
+                        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG_$TIME_STAMP
                         '''
                     }
                 }
