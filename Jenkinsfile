@@ -5,7 +5,7 @@ pipeline {
         AWS_REGION = 'us-east-1'         // Replace with your AWS region, e.g., 'us-east-1'
         ECR_REGISTRY = "920373020319.dkr.ecr.${AWS_REGION}.amazonaws.com"
         ECR_REPOSITORY = 'devops-repo' // Replace with your ECR repository name
-        IMAGE_TAG = 'latest'
+        IMAGE_TAG = 'to-do-app'
     }
 
     triggers {
@@ -39,14 +39,14 @@ pipeline {
 
                         TIME_STAMP=$(date '+%Y-%m-%d-%H-%M-%S')
                         
-                        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$TIME_STAMP
+                        docker tag $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$TIME_STAMP
 
                         # aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com
 
                         aws ecr get-login-password --region ${AWS_REGION} | docker login --username AWS --password-stdin ${ECR_REGISTRY}
                         
-                        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$TIME_STAMP"
+                        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                         '''
                     }
                 }
