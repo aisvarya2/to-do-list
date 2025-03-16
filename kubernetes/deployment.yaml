@@ -1,19 +1,21 @@
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: to-do-app-deploy # Deployment name
+  name: to-do-app-deploy  # Deployment name
 spec:
   selector:
     matchLabels:
-      app: to-do-app 
-  replicas: 2 # Number of pod replicas
+      app: to-do-app
+  replicas: 2   # Number of pod replicas
   template:
     metadata:
       labels:
-        app: to-do-app # Label for pods
+        app: to-do-app   # Label for pods
     spec:
       containers:
-      - name:  to-do-app # Container name
-        image: 920373020319.dkr.ecr.us-east-1.amazonaws.com/devops-repo:to-do-app # To-do app Docker image
-        ports:
-        - containerPort: 3000 # Port on which the container listens
+        - name: to-do-app   # Container name
+          image: >
+            920373020319.dkr.ecr.us-east-1.amazonaws.com/devops-repo:to-do-app
+          ports:
+            - containerPort: 3000   # Port on which the container listen

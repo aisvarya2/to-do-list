@@ -22,14 +22,9 @@ pipeline {
                              sh '''
                              #!/usr/bin/env 
                              aws eks update-kubeconfig --name eks-cluster-dev --region us-east-1
-                            
-                             kubectl config view
-                             kubectl get nodes
-                             kubectl get pods
-                             kubectl get svc
 
-                             #kubectl apply -f deployment.yaml
-                             #kubectl apply -f service.yaml
+                             kubectl apply -f deployment.yaml
+                             kubectl apply -f service.yaml
                              ''' 
                         }
                     }
