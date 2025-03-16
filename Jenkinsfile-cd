@@ -20,7 +20,7 @@ pipeline {
                      dir('kubernetes') {
                          withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'eks-deploy']]) { 
                              sh ''' 
-                             aws eks update-kubeconfig --name eks-cluster-dev
+                             aws eks update-kubeconfig --name eks-cluster-dev --region us-east-1
 
                              kubectl apply -f deployment.yaml
                              kubectl apply -f service.yaml
