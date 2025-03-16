@@ -22,7 +22,7 @@ pipeline {
         }
 
 
-        stage('Build Docker Image') {
+        stage('Build Docker Image and Push') {
             steps {
                 script {
                     // Use AWS credentials stored in Jenkins
@@ -48,6 +48,21 @@ pipeline {
                         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG-$TIME_STAMP
                         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
                         '''
+                    }
+                }
+            }
+        }
+
+        stage('Deploy to EKS') {
+            steps {
+                script {
+                    dir('kubernetes') {
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'eks-deploy']]) { 
+                            sh ''' 
+                            aws eks update-kubeconfig --name eks-cluster-dev
+                            kubectl apply -f deployment.yaml
+                            kubectl apply -f service.yaml
+                            ''' 
                     }
                 }
             }

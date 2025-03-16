@@ -62,7 +62,10 @@ const router = express.Router();
 
 let items = []; // Temporary in-memory storage for tasks
 
-// Render Home Page (GET /)
+// Render Home Page (GET
+// 
+// 
+//  /)
 router.get('/items', (req, res) => {
     console.log('Items array:', items); // Debugging log to verify items array
     res.render('index', { items }); // Pass 'items' to the template
@@ -92,25 +95,17 @@ router.delete('/items/:id', (req, res) => {
 });
 
 
-// Render Edit Page (GET /api/items/:id/edit)
-router.get('/items/:id/edit', (req, res) => {
-    const id = parseInt(req.params.id); // Extract task ID from the URL
-    const item = items[id]; // Fetch the task from the array
-    if (item) {
-        res.render('edit', { id, item }); // Render edit.ejs template
-    } else {
-        res.status(404).send({ error: "Item not found" }); // Handle invalid ID
-    }
-});
-
-// Edit/Update a Task (POST /api/items/:id/edit)
-router.post('/items/:id/edit', (req, res) => {
-    const id = parseInt(req.params.id); // Extract task ID from the URL
-    const updatedItem = req.body; // Extract updated task data from request body
+router.get('/items/:id', (req, res) => {
+    const id = parseInt(req.params.id);
+    console.log("Items array:", items); // Debugging log
+    console.log("Item at ID:", items[id]); // Debugging log
     if (id >= 0 && id < items.length) {
-        items[id] = updatedItem; // Update the task in the array
+        const item = items[id];
+        console.log("Item fetched:", item); // Debugging log
+        res.render('item', { item });
+    } else {
+        res.status(404).send({ error: "Item not found" });
     }
-    res.redirect('/'); // Redirect to the homepage
 });
 
 module.exports = router; // Export the router

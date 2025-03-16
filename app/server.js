@@ -8,6 +8,9 @@ const port = 3000;
 // Set EJS as the view engine
 app.set('view engine', 'ejs');
 
+app.use(express.static('public'));
+
+
 // Middleware to parse JSON request bodies
 app.use(bodyParser.json());
 // Middleware to parse form data from HTML forms
