@@ -52,25 +52,11 @@ pipeline {
                 }
             }
         }
-
-        stage('Deploy to EKS') {
-            steps {
-                script {
-                    dir('kubernetes') {
-                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: 'eks-deploy']]) { 
-                            sh ''' 
-                            aws eks update-kubeconfig --name eks-cluster-dev
-                            kubectl apply -f deployment.yaml
-                            kubectl apply -f service.yaml
-                            ''' 
-                    }
-                }
-            }
-        }
-    }
     post {
         always {
             echo 'Pipeline execution complete.'
         }
     }
+}
+
 }
