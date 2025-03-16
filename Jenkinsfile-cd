@@ -22,9 +22,6 @@ pipeline {
                              sh ''' 
                              aws eks update-kubeconfig --name eks-cluster-dev
 
-
-                             which kubectl 
-                             echo $PATH
                              kubectl apply -f deployment.yaml
                              kubectl apply -f service.yaml
                              ''' 
