@@ -17,7 +17,7 @@ pipeline {
         stage('Clone Repository') {
             steps {
                 // Clone the GitHub repository
-                git branch: 'main', url: 'https://github.com/aisvarya2/to-do-list.git' // Update URL and branch
+                git branch: 'main', url: 'https://github.com/aisvarya2/to-do-list.git' 
             }
         }
 
@@ -29,7 +29,6 @@ pipeline {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', 
                                       credentialsId: 'ecr-push']]) { 
 
-                        // Log in to AWS ECR,
                         sh '''
                         #!/usr/bin/env
                         ## aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $ECR_REGISTRY
